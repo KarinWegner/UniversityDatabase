@@ -15,5 +15,8 @@ namespace UniversityDatabase.Core.Entities
         public string FullName => $"{FirstName} {LastName}"; //Skapas inte i databasen
         public string Email { get; set; }
 
+        //Navigational property
+        public Address Address { get; set; }
+
     }
 }

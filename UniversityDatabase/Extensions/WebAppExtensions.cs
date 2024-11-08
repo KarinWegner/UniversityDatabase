@@ -1,6 +1,7 @@
 ﻿using Microsoft.CodeAnalysis.CSharp.Syntax;
 using UniversityDatabase.Persistance.Data;
 using UniversityDatabase.Persistance;
+using Microsoft.EntityFrameworkCore;
 
 namespace UniversityDatabase.Extensions
 {

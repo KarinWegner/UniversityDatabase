@@ -78,7 +78,7 @@ namespace UniversityDatabase.Persistance
                 var lName = faker.Name.LastName();
                 var email = faker.Internet.Email(fName, lName, "lexicon.se");
 
-                var student = new Student(avatar, fName, lName, email)
+                var student = new Student(avatar, new Name(fName, lName), email)
                 {                   
                     Address = new Address
                     {

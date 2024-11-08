@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using UniversityDatabase.Core.Entities;
+using UniversityDatabase.Models.ViewModels;
 using UniversityDatabase.Persistance.Data;
 
 namespace UniversityDatabase.Controllers
@@ -22,7 +23,22 @@ namespace UniversityDatabase.Controllers
         // GET: Students
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Student.ToListAsync());
+            //var t = _context.Student.ToList();
+            //var t2 = _context.Student.Include(s => s.Enrollments).ToList();
+            //var t3 = _context.Student.Include(s=>s.Enrollments).ThenInclude(e=>e.Course).ToList();
+
+            //var c = _context.Student.Include(s=>s.Courses ).ToList(); 
+
+            var model = _context.Student
+                .Select(s => new StudentIndexViewModel
+            {
+                Id = s.Id,
+                Avatar = s.Avatar,
+                FullName = s.Name.FullName,
+                City = s.Address.City
+            });
+
+            return View(await model.ToListAsync());
         }
 
         // GET: Students/Details/5

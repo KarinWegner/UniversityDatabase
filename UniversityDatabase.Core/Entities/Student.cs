@@ -18,5 +18,10 @@ namespace UniversityDatabase.Core.Entities
         //Navigational property
         public Address Address { get; set; }
 
+        //Convention 2 och 3
+        public ICollection<Enrollment> Enrollments { get; set; }
+
+        public ICollection<Course> Courses { get; set; }
+
     }
 }

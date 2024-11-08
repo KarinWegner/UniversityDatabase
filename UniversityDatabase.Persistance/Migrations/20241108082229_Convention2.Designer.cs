@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using UniversityDatabase.Persistance.Data;
 
@@ -10,9 +11,11 @@ using UniversityDatabase.Persistance.Data;
 namespace UniversityDatabase.Persistance.Migrations
 {
     [DbContext(typeof(UniversityDatabaseContext))]
-    partial class UniversityDatabaseContextModelSnapshot : ModelSnapshot
+    [Migration("20241108082229_Convention2")]
+    partial class Convention2
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -20,21 +23,6 @@ namespace UniversityDatabase.Persistance.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
-
-            modelBuilder.Entity("CourseStudent", b =>
-                {
-                    b.Property<int>("CoursesId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("StudentsId")
-                        .HasColumnType("int");
-
-                    b.HasKey("CoursesId", "StudentsId");
-
-                    b.HasIndex("StudentsId");
-
-                    b.ToTable("CourseStudent");
-                });
 
             modelBuilder.Entity("UniversityDatabase.Core.Entities.Address", b =>
                 {
@@ -65,23 +53,6 @@ namespace UniversityDatabase.Persistance.Migrations
                         .IsUnique();
 
                     b.ToTable("Address");
-                });
-
-            modelBuilder.Entity("UniversityDatabase.Core.Entities.Course", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("Title")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Course");
                 });
 
             modelBuilder.Entity("UniversityDatabase.Core.Entities.Enrollment", b =>
@@ -131,21 +102,6 @@ namespace UniversityDatabase.Persistance.Migrations
                     b.ToTable("Student");
                 });
 
-            modelBuilder.Entity("CourseStudent", b =>
-                {
-                    b.HasOne("UniversityDatabase.Core.Entities.Course", null)
-                        .WithMany()
-                        .HasForeignKey("CoursesId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("UniversityDatabase.Core.Entities.Student", null)
-                        .WithMany()
-                        .HasForeignKey("StudentsId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
             modelBuilder.Entity("UniversityDatabase.Core.Entities.Address", b =>
                 {
                     b.HasOne("UniversityDatabase.Core.Entities.Student", "Student")
@@ -159,13 +115,11 @@ namespace UniversityDatabase.Persistance.Migrations
 
             modelBuilder.Entity("UniversityDatabase.Core.Entities.Enrollment", b =>
                 {
-                    b.HasOne("UniversityDatabase.Core.Entities.Student", "Student")
+                    b.HasOne("UniversityDatabase.Core.Entities.Student", null)
                         .WithMany("Enrollments")
                         .HasForeignKey("StudentId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.Navigation("Student");
                 });
 
             modelBuilder.Entity("UniversityDatabase.Core.Entities.Student", b =>

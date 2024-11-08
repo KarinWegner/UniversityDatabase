@@ -15,7 +15,9 @@ namespace UniversityDatabase.Persistance.Data
         }
 
         public DbSet<Student> Student { get; set; } = default!;
-        public DbSet<Enrollment> Enrollments { get; set; } = default!;
+
+        //Not needed for Convention 2, only Con1
+        //public DbSet<Enrollment> Enrollments { get; set; } = default!;
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

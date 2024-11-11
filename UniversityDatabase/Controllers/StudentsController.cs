@@ -32,21 +32,26 @@ namespace UniversityDatabase.Controllers
 
             //var c = _context.Student.Include(s=>s.Courses ).ToList(); 
 
-            var model = _context.Student
-                .OrderByDescending(s=>s.Id)
-                .Select(s => new StudentIndexViewModel
-            {
-                Id = s.Id,
-                Avatar = s.Avatar,
-                FullName = s.Name.FullName,
-                City = s.Address.City,
-                CourseInfos = s.Enrollments.Select(e=>new CourseInfo
-                {
-                    CourseName = e.Course.Title,
-                    Grade = e.Grade
-                })
-            })
-            .Take(5);
+            //var model = _context.Student
+            //    .OrderByDescending(s=>s.Id)
+            //    .Select(s => new StudentIndexViewModel
+            //{
+            //    Id = s.Id,
+            //    Avatar = s.Avatar,
+            //    FullName = s.Name.FullName,
+            //    City = s.Address.City,
+            //    CourseInfos = s.Enrollments.Select(e=>new CourseInfo
+            //    {
+            //        CourseName = e.Course.Title,
+            //        Grade = e.Grade
+            //    })
+            //})
+            //.Take(5);
+
+            //Project to fungerar med IQueriable. Kan göra enumerables
+            var model = mapper.ProjectTo<StudentIndexViewModel>(_context.Student)
+                .OrderByDescending(s => s.Id)
+                .Take(5);
 
             return View(await model.ToListAsync());
         }

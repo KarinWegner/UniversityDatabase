@@ -4,8 +4,8 @@
     {
         public int Id { get; set; }
         public string Avatar { get; set; }
-        public string FullName { get; set; }
-        public string City { get; set; }
+        public string NameFullName { get; set; }
+        public string AddressCity { get; set; }
 
         public IEnumerable<CourseInfo> CourseInfos { get; set; }
     }

@@ -17,6 +17,8 @@ internal class Program
         // Add services to the container.
         builder.Services.AddControllersWithViews();
 
+        builder.Services.AddAutoMapper(typeof(UniversityMappings));
+
         var app = builder.Build();
 
 

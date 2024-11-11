@@ -49,5 +49,10 @@ namespace UniversityDatabase.Core.Entities
             FirstName = firstName;
             LastName = lastName;
         }
+        private Name()
+        {
+            FirstName = null!;
+            LastName = null!;
+        }
     }
 }

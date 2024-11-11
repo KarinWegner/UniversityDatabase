@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -14,10 +15,12 @@ namespace UniversityDatabase.Controllers
     public class StudentsController : Controller
     {
         private readonly UniversityDatabaseContext _context;
+        private readonly IMapper mapper;
 
-        public StudentsController(UniversityDatabaseContext context)
+        public StudentsController(UniversityDatabaseContext context, IMapper mapper)
         {
             _context = context;
+            this.mapper = mapper;
         }
 
         // GET: Students
@@ -36,7 +39,12 @@ namespace UniversityDatabase.Controllers
                 Id = s.Id,
                 Avatar = s.Avatar,
                 FullName = s.Name.FullName,
-                City = s.Address.City
+                City = s.Address.City,
+                CourseInfos = s.Enrollments.Select(e=>new CourseInfo
+                {
+                    CourseName = e.Course.Title,
+                    Grade = e.Grade
+                })
             })
             .Take(5);
 
@@ -76,15 +84,19 @@ namespace UniversityDatabase.Controllers
         {
             if (ModelState.IsValid)
             {
-                var student = new Student("https://thispersondoesnotexist.com/", new Name(viewModel.FirstName, viewModel.LastName), viewModel.Email)
-                {
-                    Address = new Address
-                    {
-                        Street = viewModel.Street,
-                        ZipCode = viewModel.ZipCode,
-                        City = viewModel.City
-                    }
-                };
+                //var student = new Student("https://thispersondoesnotexist.com/", new Name(viewModel.FirstName, viewModel.LastName), viewModel.Email)
+                //{
+                //    Address = new Address
+                //    {
+                //        Street = viewModel.Street,
+                //        ZipCode = viewModel.ZipCode,
+                //        City = viewModel.City
+                //    }
+                //};
+
+                var student = mapper.Map<Student>(viewModel);
+                student.Avatar = "https://thispersondoesnotexist.com/";
+
                 _context.Add(student);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));

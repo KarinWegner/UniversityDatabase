@@ -20,7 +20,10 @@
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.City)
-            </th>          
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CourseInfos)
+            </th>
             <th></th>
         </tr>
     </thead>
@@ -36,6 +39,12 @@
             <td>
                 @Html.DisplayFor(modelItem => item.City)
             </td>
+                <td>
+                   @foreach(var course in item.CourseInfos)
+                   {
+                       <p>Course: @course.CourseName | Grade: @course.Grade</p>
+                   }
+                </td>
           
             <td>
                 <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
